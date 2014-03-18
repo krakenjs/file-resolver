@@ -30,9 +30,7 @@ var proto = {
 
     _locate: function (name, locale) {
         var relative = locale ? path.join(this._root, locale.country, locale.language) : this._root;
-        console.info('relative,', relative);
         var val = util.locate(name, this._root, relative);
-        console.info(val);
         return val;
     },
 
@@ -44,7 +42,6 @@ var proto = {
      */
     resolve: function (name, locale) {
         var match;
-        console.info('name', name, 'locale', locale);
         name = name + this._ext;
         locale = util.parseLangTag(locale);
 
