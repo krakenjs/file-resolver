@@ -1,16 +1,26 @@
 {
-    "name": "fileResolver",
-    "version": "0.0.1",
-    "description": "Resolves to a file path given the source file, locale and file extension, used in kraken projects",
-    "main": "index.js",
-    "author": {
-        "name": "Erik Toth",
-        "email": "etoth@paypal.com"
-    },
-    "contributor": {
-        "name": "Poornima Venkatakrishnan"
-    },
-    "dependencies": {
-        "graceful-fs": "~2.0.1"
-    }
+  "name": "fileResolver",
+  "version": "0.0.1",
+  "description": "Resolves to a file path given the source file, locale and file extension, used in kraken projects",
+  "main": "index.js",
+  "author": {
+    "name": "Erik Toth",
+    "email": "etoth@paypal.com"
+  },
+  "contributor": {
+    "name": "Poornima Venkatakrishnan"
+  },
+  "dependencies": {
+    "graceful-fs": "~2.0.1"
+  },
+  "devDependencies": {
+    "tape": "~2.10.2",
+    "istanbul": "~0.2.6",
+    "jshint": "~2.4.4"
+  },
+  "scripts": {
+    "test": "tape test/*.js",
+    "cover": "istanbul cover tape -- test/*.js",
+    "lint": "jshint -c .jshintrc index.js lib/"
+  }
 }

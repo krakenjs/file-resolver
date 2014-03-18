@@ -29,7 +29,7 @@ var proto = {
     },
 
     _locate: function (name, locale) {
-        var relative = locale ? path.join(this._root, locale.country, locale.language) : this._root;
+        var relative = path.join(this._root, locale.country, locale.language);
         var val = util.locate(name, this._root, relative);
         return val;
     },
@@ -41,25 +41,17 @@ var proto = {
      * @returns {*}
      */
     resolve: function (name, locale) {
-        var match;
+        var match, loc;
         name = name + this._ext;
-        locale = util.parseLangTag(locale);
-
-        [locale, this._fallback].every(function walk(locale) {
-            match = this._locate(name, locale);
-            return !(match && match.file);
-        }, this);
-
+        loc = locale ? util.parseLangTag(locale) : this._fallback;
+        match = this._locate(name, loc);
         return match;
     }
 
 };
 
-
-
 exports.create = function (options) {
     var ext;
-
     options = options || {};
     assert(options.root, 'root is not defined. A root directory must be specified.');
     assert(options.ext, 'ext is not defined. A file extension is required.');
@@ -68,7 +60,6 @@ exports.create = function (options) {
     if (ext[0] !== '.') {
         ext = '.' + ext;
     }
-
     return Object.create(proto, {
         _root: {
             value: options.root
