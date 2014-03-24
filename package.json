@@ -4,11 +4,15 @@
   "description": "Resolves to a file path given the source file, locale and file extension, used in kraken projects",
   "main": "index.js",
   "author": {
-    "name": "Erik Toth",
-    "email": "etoth@paypal.com"
+    "name": "Poornima Venkatakrishnan",
+    "email": "pvenkatakrishnan@paypal.com"
   },
   "contributor": {
-    "name": "Poornima Venkatakrishnan"
+    "name": "Erik Toth"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/krakenjs/fileResolver.git"
   },
   "dependencies": {
     "graceful-fs": "~2.0.1"
