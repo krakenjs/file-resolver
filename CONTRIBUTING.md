@@ -1,4 +1,4 @@
-# Contributing To fileResolver
+# Contributing To file-resolver
 
 We are always looking for ways to make our modules better. Adding features and fixing bugs allows everyone who depends
 on this code to create better, more stable applications.
@@ -9,13 +9,13 @@ your changes into our code. Ideas and other comments are also welcome.
 1. Create your own [fork](https://help.github.com/articles/fork-a-repo) of this [repository](../../fork).
 ```bash
 # Clone it
-$ git clone git@github.com:me/fileResolver.git
+$ git clone git@github.com:me/file-resolver.git
 
 # Change directory
-$ cd fileResolver
+$ cd file-resolver
 
 # Add the upstream repo
-$ git remote add upstream git://github.com/krakenjs/fileResolver.git
+$ git remote add upstream git://github.com/krakenjs/file-resolver.git
 
 # Get the latest upstream changes
 $ git pull upstream
