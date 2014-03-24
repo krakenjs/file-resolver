@@ -17,3 +17,16 @@ var fr = require('fileResolver'),
 //  name: 'foo'
 //}
 ```
+
+Running Tests:
+
+```
+To Run tests
+$npm test
+
+To Run Coverage
+$npm run-script cover
+
+To Run linting
+$npm run-script lint
+```
