@@ -40,12 +40,15 @@ var proto = {
      * @param locale
      * @returns {*}
      */
-    resolve: function (name, locale) {
-        var match, loc;
+    resolve: function (name, locale, callback) {
+        if (!callback) {
+            callback = locale;
+            locale = null;
+        }
         name = name + this._ext;
-        loc = locale ? util.parseLangTag(locale) : this._fallback;
-        match = this._locate(name, loc);
-        return match;
+        var loc = locale ? util.parseLangTag(locale) : this._fallback;
+        var match = this._locate(name, loc);
+        callback(null, match);
     }
 
 };
