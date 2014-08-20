@@ -9,7 +9,7 @@ test('fileResolver', function (t) {
     t.test('Creating a file resolver without options should throw assertion error', function (t) {
         try {
             resolvr = fileResolver.create();
-        } catch(e){
+        } catch (e) {
             t.equal('root is not defined. A root directory must be specified.', e.message);
         }
         t.end();
