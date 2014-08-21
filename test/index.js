@@ -17,15 +17,13 @@ test('fileResolver', function (t) {
 
     t.test('Creating a file resolver with options', function (t) {
         resolvr = fileResolver.create({root: __dirname + '/fixtures/root', fallback: 'en_US', ext: 'dust'});
-        t.deepEqual(resolvr.fallbackLocale, { country: 'US', language: 'en' });
-        t.equal(typeof resolvr._locate, 'function');
+        t.deepEqual(resolvr.fallback, { country: 'US', language: 'en' });
         t.end();
     });
 
     t.test('Creating a file resolver with options', function (t) {
         resolvr = fileResolver.create({root: __dirname + '/fixtures/root', fallback: 'en_US', ext: '.dust'});
-        t.deepEqual(resolvr.fallbackLocale, { country: 'US', language: 'en' });
-        t.equal(typeof resolvr._locate, 'function');
+        t.deepEqual(resolvr.fallback, { country: 'US', language: 'en' });
         t.end();
     });
 
@@ -54,8 +52,7 @@ test('fileResolver', function (t) {
 
     t.test('Creating a file resolver with options', function (t) {
         resolvr = fileResolver.create({root: __dirname + '/fixtures/root', ext: 'dust'});
-        t.deepEqual(resolvr.fallbackLocale, { country: '', language: '' });
-        t.equal(typeof resolvr._locate, 'function');
+        t.deepEqual(resolvr.fallback, { country: '', language: '' });
         t.end();
     });
 
@@ -81,8 +78,7 @@ test('fileResolver', function (t) {
 
     t.test('Creating a file resolver with invalid root', function (t) {
         resolvr = fileResolver.create({root: __dirname + '/fixtures', ext: 'dust'});
-        t.deepEqual(resolvr.fallbackLocale, { country: '', language: '' });
-        t.equal(typeof resolvr._locate, 'function');
+        t.deepEqual(resolvr.fallback, { country: '', language: '' });
 
         var info = resolvr.resolve('test', function (err, info) {
             t.equal(info.root, undefined);
@@ -95,8 +91,7 @@ test('fileResolver', function (t) {
 
     t.test('Creating a file resolver with invalid locale', function (t) {
         resolvr = fileResolver.create({root: __dirname + '/fixtures/root', ext: 'dust', fallback: 'es'});
-        t.deepEqual(resolvr.fallbackLocale, { country: '', language: 'es' });
-        t.equal(typeof resolvr._locate, 'function');
+        t.deepEqual(resolvr.fallback, { country: '', language: 'es' });
         t.end();
     });
 });
