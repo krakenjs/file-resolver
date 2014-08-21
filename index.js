@@ -48,7 +48,9 @@ var proto = {
         name = name + this._ext;
         var loc = locale ? util.parseLangTag(locale) : this._fallback;
         var match = this._locate(name, loc);
-        callback(null, match);
+        process.nextTick(function () {
+            callback(null, match);
+        });
     }
 
 };
