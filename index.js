@@ -22,9 +22,10 @@ var path = require('path'),
     assert = require('assert');
 
 
-function Resolver(root, fallback, ext) {
+function Resolver(root, fallback, searchPaths, ext) {
     this.root = root;
     this.fallback = util.parseLangTag(fallback);
+    this.searchPaths = searchPaths;
     this.ext = ext;
 }
 
@@ -43,13 +44,24 @@ Resolver.prototype.resolve = function (name, locale, callback) {
 
     var loc = util.parseLangTag(locale);
 
-    var relative = path.join(this.root, loc.country || '', loc.language || '');
-    var val = util.locate(name + this.ext, this.root, relative);
-    if (val) {
-        callback(null, val);
-    } else {
-        callback(null, util.locate(name, this.root, this.root));
+    var ext = this.ext;
+    var root = this.root;
+    var searchPaths = this.searchPaths;
+
+    function resolve(country, language) {
+        var relative = path.join(root, country || '', language || '');
+        var val = util.locate(name + ext, root, relative);
+
+        if (val) {
+            return callback(null, val);
+        } else if (searchPaths[country]) {
+            return resolve(searchPaths[country], language);
+        } else {
+            return callback(new Error("Not found"));
+        }
     }
+
+    return resolve(loc.country, loc.language);
 
 };
 
@@ -64,5 +76,5 @@ exports.create = function (options) {
         ext = '.' + ext;
     }
 
-    return new Resolver(options.root, util.parseLangTag(options.fallback), ext);
+    return new Resolver(options.root, util.parseLangTag(options.fallback), options.searchMap || {}, ext);
 };
