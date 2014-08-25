@@ -30,21 +30,15 @@ test('fileResolver', function (t) {
 
     t.test('resolving for an extension with default locale', function (t) {
         resolvr = fileResolver.create({root: __dirname + '/fixtures/root', fallback: 'en_US', ext: 'dust'});
-        resolvr.resolve('test', function (err, info) {
-            t.equal(info.root, __dirname + '/fixtures/root/US/en/');
-            t.equal(info.file, __dirname + '/fixtures/root/US/en/test.dust');
-            t.equal(info.ext, 'dust');
-            t.equal(info.name, 'test');
+        resolvr.resolve('test', function (err, file) {
+            t.equal(file, __dirname + '/fixtures/root/US/en/test.dust');
             t.end();
         });
     });
 
     t.test('resolving for an extension with a specified locale', function (t) {
-        resolvr.resolve('test', 'es_US', function (err, info) {
-            t.equal(info.root, __dirname + '/fixtures/root/US/es/');
-            t.equal(info.file, __dirname + '/fixtures/root/US/es/test.dust');
-            t.equal(info.ext, 'dust');
-            t.equal(info.name, 'test');
+        resolvr.resolve('test', 'es_US', function (err, file) {
+            t.equal(file, __dirname + '/fixtures/root/US/es/test.dust');
             t.end();
         });
 
@@ -57,21 +51,15 @@ test('fileResolver', function (t) {
     });
 
     t.test('resolving for an extension without locale', function (t) {
-        var info = resolvr.resolve('test', function (err, info) {
-            t.equal(info.root, __dirname + '/fixtures/root/');
-            t.equal(info.file, __dirname + '/fixtures/root/test.dust');
-            t.equal(info.ext, 'dust');
-            t.equal(info.name, 'test');
+        resolvr.resolve('test', function (err, file) {
+            t.equal(file, __dirname + '/fixtures/root/test.dust');
             t.end();
         });
     });
 
     t.test('trying to resolve with a locale object', function (t) {
-        resolvr.resolve('test', { country: 'US', language: 'es' }, function (err, info) {
-            t.equal(info.root, __dirname + '/fixtures/root/US/es/');
-            t.equal(info.file, __dirname + '/fixtures/root/US/es/test.dust');
-            t.equal(info.ext, 'dust');
-            t.equal(info.name, 'test');
+        resolvr.resolve('test', { country: 'US', language: 'es' }, function (err, file) {
+            t.equal(file, __dirname + '/fixtures/root/US/es/test.dust');
             t.end();
         });
     });
@@ -80,11 +68,8 @@ test('fileResolver', function (t) {
         resolvr = fileResolver.create({root: __dirname + '/fixtures', ext: 'dust'});
         t.deepEqual(resolvr.fallback, { country: '', language: '' });
 
-        var info = resolvr.resolve('test', function (err, info) {
-            t.equal(info.root, undefined);
-            t.equal(info.file, undefined);
-            t.equal(info.ext, 'dust');
-            t.equal(info.name, 'test');
+        resolvr.resolve('test', function (err, file) {
+            t.equal(file, undefined);
             t.end();
         });
     });
