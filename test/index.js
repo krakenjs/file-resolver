@@ -81,4 +81,14 @@ test('fileResolver', function (t) {
         t.deepEqual(resolvr.fallback, { country: '', language: 'es' });
         t.end();
     });
+
+    t.test('resolving for an extension with a specified locale that searches deeper', function (t) {
+        var resolvr = fileResolver.create({root: __dirname + '/fixtures/root', fallback: 'en_US', searchMap: {
+            "XX": "US"
+        }, ext: 'dust'});
+        resolvr.resolve('test', 'en_XX', function (err, file) {
+            t.equal(file, __dirname + '/fixtures/root/US/en/test.dust');
+            t.end();
+        });
+    });
 });
