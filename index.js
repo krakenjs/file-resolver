@@ -49,7 +49,7 @@ Resolver.prototype.resolve = function (name, locale, callback) {
     var searchPaths = this.searchPaths;
 
     function resolve(country, language) {
-        var relative = path.join(root, country || '', language || '');
+        var relative = path.join(root, language || '', country || '');
         var val = util.locate(name + ext, root, relative);
 
         if (val) {
