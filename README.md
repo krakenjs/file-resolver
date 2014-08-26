@@ -86,3 +86,12 @@ At [1], this is new behavior -- choosing a new language but retaining the old re
 [2] Could skip to here.
 
 At [3], we're duplicating -- I could see an argument for re-arranging this to not duplicate in the search, though it'll be in the OS's cache.
+
+Porting from file-resolver 0.0.1
+================================
+
+File layout has changed: language and region have been reversed. Instead of `US/en`, it's `en/US`.
+
+The API is now asynchronous: `result = resolver.resolve(...)` is now `resolver.resolve(..., function (err, file) { ... })`.
+
+The API now only returns the file resolved, no other information about it.
