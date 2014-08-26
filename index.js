@@ -28,17 +28,6 @@ function Resolver(root, fallback, ext) {
     this.ext = ext;
 }
 
-function locate(name, locale, cb) {
-    /*jshint validthis: true*/
-    var relative = path.join(this.root, locale.country || '', locale.language || '');
-    var val = util.locate(name, this.root, relative);
-    if (val) {
-        cb(null, val);
-    } else {
-        cb(null, util.locate(name, this.root, this.root));
-    }
-}
-
 /**
  * Finds a file that matches the provided name, falling back to a root directory.
  */
@@ -52,8 +41,16 @@ Resolver.prototype.resolve = function (name, locale, callback) {
         locale = this.fallback;
     }
 
-    name = name + this.ext;
-    locate.call(this, name, util.parseLangTag(locale), callback);
+    var loc = util.parseLangTag(locale);
+
+    var relative = path.join(this.root, loc.country || '', loc.language || '');
+    var val = util.locate(name + this.ext, this.root, relative);
+    if (val) {
+        callback(null, val);
+    } else {
+        callback(null, util.locate(name, this.root, this.root));
+    }
+
 };
 
 exports.create = function (options) {
