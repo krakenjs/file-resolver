@@ -31,7 +31,7 @@ test('fileResolver', function (t) {
     t.test('resolving for an extension with default locale', function (t) {
         var resolvr = fileResolver.create({root: __dirname + '/fixtures/root', fallback: 'en_US', ext: 'dust'});
         resolvr.resolve('test', function (err, file) {
-            t.equal(file, __dirname + '/fixtures/root/US/en/test.dust');
+            t.equal(file, __dirname + '/fixtures/root/en/US/test.dust');
             t.end();
         });
     });
@@ -39,7 +39,7 @@ test('fileResolver', function (t) {
     t.test('resolving for an extension with a specified locale', function (t) {
         var resolvr = fileResolver.create({root: __dirname + '/fixtures/root', fallback: 'en_US', ext: 'dust'});
         resolvr.resolve('test', 'es_US', function (err, file) {
-            t.equal(file, __dirname + '/fixtures/root/US/es/test.dust');
+            t.equal(file, __dirname + '/fixtures/root/es/US/test.dust');
             t.end();
         });
     });
@@ -61,7 +61,7 @@ test('fileResolver', function (t) {
     t.test('trying to resolve with a locale object', function (t) {
         var resolvr = fileResolver.create({root: __dirname + '/fixtures/root', ext: 'dust'});
         resolvr.resolve('test', { country: 'US', language: 'es' }, function (err, file) {
-            t.equal(file, __dirname + '/fixtures/root/US/es/test.dust');
+            t.equal(file, __dirname + '/fixtures/root/es/US/test.dust');
             t.end();
         });
     });
@@ -87,7 +87,7 @@ test('fileResolver', function (t) {
             "XX": "US"
         }, ext: 'dust'});
         resolvr.resolve('test', 'en_XX', function (err, file) {
-            t.equal(file, __dirname + '/fixtures/root/US/en/test.dust');
+            t.equal(file, __dirname + '/fixtures/root/en/US/test.dust');
             t.end();
         });
     });
