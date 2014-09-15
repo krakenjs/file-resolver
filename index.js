@@ -31,6 +31,12 @@ var proto = {
     _locate: function (name, locale) {
         var relative = path.join(this._root, locale.country, locale.language);
         var val = util.locate(name, this._root, relative);
+
+        if (!val.file) {
+            relative = path.join(this._root, this._fallback.country, this._fallback.language);
+            val = util.locate(name, this._root, relative);
+        }
+
         return val;
     },
 

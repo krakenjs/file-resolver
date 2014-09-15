@@ -52,6 +52,17 @@ test('fileResolver', function (t) {
         t.end();
     });
 
+    t.test('Resolve a bundle not in the primary langauge but is in the fallback', function (t) {
+        var resolvr = fileResolver.create({root: __dirname + '/fixtures/root', fallback: 'en_US', ext: 'dust'});
+        var info = resolvr.resolve('fallback', 'es_US');
+
+        t.equal(info.root, __dirname + '/fixtures/root/US/en/');
+        t.equal(info.file, __dirname + '/fixtures/root/US/en/fallback.dust');
+        t.equal(info.ext, 'dust');
+        t.equal(info.name, 'fallback');
+        t.end();
+    });
+
     t.test('Creating a file resolver with options', function (t) {
         var resolvr = fileResolver.create({root: __dirname + '/fixtures/root', ext: 'dust'});
         t.deepEqual(resolvr.fallbackLocale, { country: '', language: '' });
