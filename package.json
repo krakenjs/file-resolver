@@ -1,5 +1,5 @@
 {
-  "name": "fileResolver",
+  "name": "file-resolver",
   "version": "1.0.0",
   "description": "Resolves to a file path given the source file, locale and file extension, used in kraken projects",
   "main": "index.js",
