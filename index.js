@@ -22,35 +22,33 @@ var path = require('path'),
     assert = require('assert');
 
 
-var proto = {
+function Resolver(root, fallback, ext) {
+    this.root = root;
+    this.fallback = util.parseLangTag(fallback);
+    this.ext = ext;
+}
 
-    get fallbackLocale() {
-        return this._fallback;
-    },
+/**
+ * Finds a file that matches the provided name, falling back to a root directory.
+ */
+Resolver.prototype.resolve = function (name, locale, callback) {
+    if (!callback) {
+        callback = locale;
+        locale = null;
+    }
 
-    _locate: function (name, locale) {
-        var relative = path.join(this._root, locale.country, locale.language);
-        var val = util.locate(name, this._root, relative);
-        return val;
-    },
+    if (!locale) {
+        locale = this.fallback;
+    }
 
-    /**
-     * Finds a file that matches the provided name, falling back to a root directory.
-     * @param name
-     * @param locale
-     * @returns {*}
-     */
-    resolve: function (name, locale, callback) {
-        if (!callback) {
-            callback = locale;
-            locale = null;
-        }
-        name = name + this._ext;
-        var loc = locale ? util.parseLangTag(locale) : this._fallback;
-        var match = this._locate(name, loc);
-        process.nextTick(function () {
-            callback(null, match);
-        });
+    var loc = util.parseLangTag(locale);
+
+    var relative = path.join(this.root, loc.country || '', loc.language || '');
+    var val = util.locate(name + this.ext, this.root, relative);
+    if (val) {
+        callback(null, val);
+    } else {
+        callback(null, util.locate(name, this.root, this.root));
     }
 
 };
@@ -65,15 +63,6 @@ exports.create = function (options) {
     if (ext[0] !== '.') {
         ext = '.' + ext;
     }
-    return Object.create(proto, {
-        _root: {
-            value: options.root
-        },
-        _fallback: {
-            value: util.parseLangTag(options.fallback)
-        },
-        _ext: {
-            value: ext
-        }
-    });
+
+    return new Resolver(options.root, util.parseLangTag(options.fallback), ext);
 };
