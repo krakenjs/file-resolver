@@ -1,5 +1,9 @@
-file-resolver [![Build Status](https://travis-ci.org/paypal/kraken-js.png)](https://travis-ci.org/krakenjs/file-resolver)
-============
+file-resolver
+=============
+
+Lead Maintainer: [Aria Stewart](https://github.com/aredridel)  
+
+[![Build Status](https://travis-ci.org/krakenjs/file-resolver.svg?branch=master)](https://travis-ci.org/krakenjs/file-resolver)
 
 Used in kraken based projects for resolving file paths when given the locale, source file name, and the file extension.
 
