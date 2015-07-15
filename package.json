@@ -15,6 +15,9 @@
     "url": "https://github.com/krakenjs/file-resolver.git"
   },
   "dependencies": {
+    "bcp47": "^1.1.2",
+    "bcp47-stringify": "^1.0.0",
+    "debuglog": "^1.0.1",
     "graceful-fs": "~2.0.1"
   },
   "devDependencies": {

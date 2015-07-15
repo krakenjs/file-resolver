@@ -19,8 +19,11 @@
 
 var path = require('path'),
     util = require('./lib/util'),
+    bcp47s = require('bcp47-stringify'),
+    debuglog = require('debuglog'),
     assert = require('assert');
 
+var debug = debuglog('file-resolver');
 
 var proto = {
 
@@ -28,12 +31,19 @@ var proto = {
         return this.fallback;
     },
 
-    locate: function (name, locale) {
-        var relative = path.join(this.root, locale.country, locale.language);
+    locate: function (name, localeStr) {
+        var locale = util.parseLangTag(localeStr);
+        debug("locale %j is %j", localeStr, locale);
+        var formatted = this.formatPath(locale) || this.formatPath(this.fallback);
+        debug("trying to find '%s' in '%s' within '%s'", name, formatted, this.root);
+        var relative = path.join(this.root, formatted || '.');
         var val = util.locate(name, this.root, relative);
 
         if (!val.file) {
-            relative = path.join(this.root, this.fallback.country, this.fallback.language);
+            formatted = this.formatPath(this.fallback);
+            debug("fallback locale is %j", this.fallback);
+            debug("trying to find '%s' in fallback '%s' within '%s'", name, formatted, this.root);
+            relative = path.join(this.root, formatted || '.');
             val = util.locate(name, this.root, relative);
         }
 
@@ -49,7 +59,7 @@ var proto = {
     resolve: function (name, locale) {
         var match, loc;
         name = name + this.ext;
-        loc = locale ? util.parseLangTag(locale) : this.fallback;
+        loc = locale || this.fallback;
         match = this.locate(name, loc);
         return match;
     }
@@ -69,6 +79,7 @@ function Resolver(options) {
 
     this.root = options.root;
     this.fallback = util.parseLangTag(options.fallback);
+    this.formatPath = options.formatPath || bcp47s;
 }
 
 Resolver.prototype = proto;
