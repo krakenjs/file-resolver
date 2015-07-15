@@ -1,7 +1,7 @@
 'use strict';
 
 var fileResolver = require('../index'),
-    test = require('tape'),
+    test = require('tap').test,
     path = require('path');
 
 test('fileResolver', function (t) {
