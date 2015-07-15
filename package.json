@@ -4,8 +4,8 @@
   "description": "Resolves to a file path given the source file, locale and file extension, used in kraken projects",
   "main": "index.js",
   "author": {
-    "name": "Poornima Venkatakrishnan",
-    "email": "pvenkatakrishnan@paypal.com"
+    "email": "pvenkatakrishnan@paypal.com",
+    "name": "Poornima Venkatakrishnan"
   },
   "contributor": {
     "name": "Erik Toth"
@@ -18,13 +18,14 @@
     "graceful-fs": "~2.0.1"
   },
   "devDependencies": {
-    "tape": "~2.10.2",
     "istanbul": "^0.3.0",
-    "jshint": "~2.4.4"
+    "jshint": "~2.4.4",
+    "nyc": "^3.0.0",
+    "tap": "^1.3.1"
   },
   "scripts": {
-    "test": "tape test/*.js",
-    "cover": "istanbul cover tape -- test/*.js",
-    "lint": "jshint -c .jshintrc index.js lib/"
+    "cover": "nyc tap test/*.js",
+    "lint": "jshint -c .jshintrc index.js lib/",
+    "test": "tap test/*.js"
   }
 }
