@@ -56,25 +56,23 @@ var proto = {
 
 };
 
-exports.create = function (options) {
-    var ext;
+function Resolver(options) {
     options = options || {};
     assert(options.root, 'root is not defined. A root directory must be specified.');
     assert(options.ext, 'ext is not defined. A file extension is required.');
 
-    ext = options.ext;
-    if (ext[0] !== '.') {
-        ext = '.' + ext;
+    if (options.ext[0] !== '.') {
+        this.ext = '.' + options.ext;
+    } else {
+        this.ext = options.ext;
     }
-    return Object.create(proto, {
-        root: {
-            value: options.root
-        },
-        fallback: {
-            value: util.parseLangTag(options.fallback)
-        },
-        ext: {
-            value: ext
-        }
-    });
+
+    this.root = options.root;
+    this.fallback = util.parseLangTag(options.fallback);
+}
+
+Resolver.prototype = proto;
+
+exports.create = function (options) {
+    return new Resolver(options);
 };
