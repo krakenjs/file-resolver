@@ -56,12 +56,20 @@ var proto = {
      * @param locale
      * @returns {*}
      */
-    resolve: function (name, locale) {
-        var match, loc;
-        name = name + this.ext;
-        loc = locale || this.fallback;
-        match = this.locate(name, loc);
-        return match;
+    resolve: function (name, locale, cb) {
+        try {
+            var match, loc;
+            name = name + this.ext;
+            loc = locale || this.fallback;
+            match = this.locate(name, loc);
+            setImmediate(function () {
+                cb(null, match);
+            });
+        } catch (e) {
+            setImmediate(function () {
+                cb(e);
+            });
+        }
     }
 
 };
