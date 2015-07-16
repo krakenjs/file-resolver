@@ -25,16 +25,16 @@ var path = require('path'),
 var proto = {
 
     get fallbackLocale() {
-        return this._fallback;
+        return this.fallback;
     },
 
-    _locate: function (name, locale) {
-        var relative = path.join(this._root, locale.country, locale.language);
-        var val = util.locate(name, this._root, relative);
+    locate: function (name, locale) {
+        var relative = path.join(this.root, locale.country, locale.language);
+        var val = util.locate(name, this.root, relative);
 
         if (!val.file) {
-            relative = path.join(this._root, this._fallback.country, this._fallback.language);
-            val = util.locate(name, this._root, relative);
+            relative = path.join(this.root, this.fallback.country, this.fallback.language);
+            val = util.locate(name, this.root, relative);
         }
 
         return val;
@@ -48,9 +48,9 @@ var proto = {
      */
     resolve: function (name, locale) {
         var match, loc;
-        name = name + this._ext;
-        loc = locale ? util.parseLangTag(locale) : this._fallback;
-        match = this._locate(name, loc);
+        name = name + this.ext;
+        loc = locale ? util.parseLangTag(locale) : this.fallback;
+        match = this.locate(name, loc);
         return match;
     }
 
@@ -67,13 +67,13 @@ exports.create = function (options) {
         ext = '.' + ext;
     }
     return Object.create(proto, {
-        _root: {
+        root: {
             value: options.root
         },
-        _fallback: {
+        fallback: {
             value: util.parseLangTag(options.fallback)
         },
-        _ext: {
+        ext: {
             value: ext
         }
     });
