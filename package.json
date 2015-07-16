@@ -16,6 +16,7 @@
     "url": "https://github.com/krakenjs/file-resolver.git"
   },
   "dependencies": {
+    "debuglog": "^1.0.1",
     "graceful-fs": "~2.0.1"
   },
   "devDependencies": {

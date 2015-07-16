@@ -21,6 +21,8 @@ var path = require('path'),
     util = require('./lib/util'),
     assert = require('assert');
 
+var debug = require('debuglog')('file-resolver');
+
 
 var proto = {
 
@@ -29,6 +31,7 @@ var proto = {
     },
 
     _locate: function (name, locale) {
+        debug("resolving with locale %j to root '%s'", locale, this._root);
         var relative = path.join(this._root, locale.country, locale.language);
         var val = util.locate(name, this._root, relative);
 
