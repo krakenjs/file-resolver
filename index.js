@@ -19,8 +19,11 @@
 
 var path = require('path'),
     util = require('./lib/util'),
+    bcp47s = require('bcp47-stringify'),
+    debuglog = require('debuglog'),
     assert = require('assert');
 
+var debug = debuglog('file-resolver');
 
 var proto = {
 
@@ -28,12 +31,19 @@ var proto = {
         return this.fallback;
     },
 
-    locate: function (name, locale) {
-        var relative = path.join(this.root, locale.country, locale.language);
+    locate: function (name, localeStr) {
+        var locale = util.parseLangTag(localeStr);
+        debug("locale %j is %j", localeStr, locale);
+        var formatted = this.formatPath(locale) || this.formatPath(this.fallback);
+        debug("trying to find '%s' in '%s' within '%s'", name, formatted, this.root);
+        var relative = path.join(this.root, formatted || '.');
         var val = util.locate(name, this.root, relative);
 
         if (!val.file) {
-            relative = path.join(this.root, this.fallback.country, this.fallback.language);
+            formatted = this.formatPath(this.fallback);
+            debug("fallback locale is %j", this.fallback);
+            debug("trying to find '%s' in fallback '%s' within '%s'", name, formatted, this.root);
+            relative = path.join(this.root, formatted || '.');
             val = util.locate(name, this.root, relative);
         }
 
@@ -49,32 +59,31 @@ var proto = {
     resolve: function (name, locale) {
         var match, loc;
         name = name + this.ext;
-        loc = locale ? util.parseLangTag(locale) : this.fallback;
+        loc = locale || this.fallback;
         match = this.locate(name, loc);
         return match;
     }
 
 };
 
-exports.create = function (options) {
-    var ext;
+function Resolver(options) {
     options = options || {};
     assert(options.root, 'root is not defined. A root directory must be specified.');
     assert(options.ext, 'ext is not defined. A file extension is required.');
 
-    ext = options.ext;
-    if (ext[0] !== '.') {
-        ext = '.' + ext;
+    if (options.ext[0] !== '.') {
+        this.ext = '.' + options.ext;
+    } else {
+        this.ext = options.ext;
     }
-    return Object.create(proto, {
-        root: {
-            value: options.root
-        },
-        fallback: {
-            value: util.parseLangTag(options.fallback)
-        },
-        ext: {
-            value: ext
-        }
-    });
+
+    this.root = options.root;
+    this.fallback = util.parseLangTag(options.fallback);
+    this.formatPath = options.formatPath || bcp47s;
+}
+
+Resolver.prototype = proto;
+
+exports.create = function (options) {
+    return new Resolver(options);
 };
