@@ -37,17 +37,16 @@ var proto = {
         var formatted = this.formatPath(locale) || this.formatPath(this.fallback);
         debug("trying to find '%s' in '%s' within '%s'", name, formatted, this.root);
         var relative = path.join(this.root, formatted || '.');
-        var val = util.locate(name, this.root, relative);
 
-        if (!val.file) {
+        try {
+            return util.locate(name, relative);
+        } catch (e) {
             formatted = this.formatPath(this.fallback);
             debug("fallback locale is %j", this.fallback);
             debug("trying to find '%s' in fallback '%s' within '%s'", name, formatted, this.root);
             relative = path.join(this.root, formatted || '.');
-            val = util.locate(name, this.root, relative);
+            return util.locate(name, relative);
         }
-
-        return val;
     },
 
     /**

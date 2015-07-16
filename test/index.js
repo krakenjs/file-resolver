@@ -35,30 +35,27 @@ test('fileResolver', function (t) {
 
     t.test('resolving for an extension with default locale', function (t) {
         var resolvr = fileResolver.create({root: __dirname + path.normalize('/fixtures/root'), fallback: 'en_US', formatPath: legacyFormatPath });
-        resolvr.resolve('test.dust', null, function (err, info) {
+        resolvr.resolve('test.dust', null, function (err, file) {
             t.error(err);
-            t.equal(info.root, __dirname + path.normalize('/fixtures/root/US/en/'));
-            t.equal(info.file, __dirname + path.normalize('/fixtures/root/US/en/test.dust'));
+            t.equal(file, __dirname + path.normalize('/fixtures/root/US/en/test.dust'));
             t.end();
         });
     });
 
     t.test('resolving for an extension with a specified locale', function (t) {
         var resolvr = fileResolver.create({root: __dirname + path.normalize('/fixtures/root'), fallback: 'en_US', formatPath: legacyFormatPath });
-        resolvr.resolve('test.dust', 'es_US', function (err, info) {
+        resolvr.resolve('test.dust', 'es_US', function (err, file) {
             t.error(err);
-            t.equal(info.root, __dirname + path.normalize('/fixtures/root/US/es/'));
-            t.equal(info.file, __dirname + path.normalize('/fixtures/root/US/es/test.dust'));
+            t.equal(file, __dirname + path.normalize('/fixtures/root/US/es/test.dust'));
             t.end();
         });
     });
 
     t.test('Resolve a bundle not in the primary langauge but is in the fallback', function (t) {
         var resolvr = fileResolver.create({root: __dirname + path.normalize('/fixtures/root'), fallback: 'en_US', formatPath: legacyFormatPath });
-        resolvr.resolve('fallback.dust', 'es_US', function (err, info ) {
+        resolvr.resolve('fallback.dust', 'es_US', function (err, file) {
             t.error(err);
-            t.equal(info.root, __dirname + path.normalize('/fixtures/root/US/en/'));
-            t.equal(info.file, __dirname + path.normalize('/fixtures/root/US/en/fallback.dust'));
+            t.equal(file, __dirname + path.normalize('/fixtures/root/US/en/fallback.dust'));
             t.end();
         });
     });
@@ -72,20 +69,18 @@ test('fileResolver', function (t) {
 
     t.test('resolving for an extension without locale', function (t) {
         var resolvr = fileResolver.create({root: __dirname + path.normalize('/fixtures/root'), formatPath: legacyFormatPath });
-        resolvr.resolve('test.dust', null, function (err, info) {
+        resolvr.resolve('test.dust', null, function (err, file) {
             t.error(err);
-            t.equal(info.root, __dirname + path.normalize('/fixtures/root/'));
-            t.equal(info.file, __dirname + path.normalize('/fixtures/root/test.dust'));
+            t.equal(file, __dirname + path.normalize('/fixtures/root/test.dust'));
             t.end();
         });
     });
 
     t.test('trying to resolve with a locale object', function (t) {
         var resolvr = fileResolver.create({root: __dirname + path.normalize('/fixtures/root'), formatPath: legacyFormatPath });
-        resolvr.resolve('test.dust', 'es-US', function (err, info) {
+        resolvr.resolve('test.dust', 'es-US', function (err, file) {
             t.error(err);
-            t.equal(info.root, __dirname + path.normalize('/fixtures/root/US/es/'));
-            t.equal(info.file, __dirname + path.normalize('/fixtures/root/US/es/test.dust'));
+            t.equal(file, __dirname + path.normalize('/fixtures/root/US/es/test.dust'));
             t.end();
         });
     });
@@ -94,10 +89,9 @@ test('fileResolver', function (t) {
         var resolvr = fileResolver.create({root: __dirname + path.normalize('/fixtures'), formatPath: legacyFormatPath });
         t.deepEqual(resolvr.fallbackLocale, null);
         t.equal(typeof resolvr.locate, 'function');
-        resolvr.resolve('test.dust', null, function (err, info) {
-            t.error(err);
-            t.equal(info.root, undefined);
-            t.equal(info.file, undefined);
+        resolvr.resolve('test.dust', null, function (err, file) {
+            t.ok(err);
+            t.notOk(file);
             t.end();
         });
     });
