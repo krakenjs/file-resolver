@@ -59,7 +59,6 @@ var proto = {
     resolve: function (name, locale, cb) {
         try {
             var match, loc;
-            name = name + this.ext;
             loc = locale || this.fallback;
             match = this.locate(name, loc);
             setImmediate(function () {
@@ -77,13 +76,6 @@ var proto = {
 function Resolver(options) {
     options = options || {};
     assert(options.root, 'root is not defined. A root directory must be specified.');
-    assert(options.ext, 'ext is not defined. A file extension is required.');
-
-    if (options.ext[0] !== '.') {
-        this.ext = '.' + options.ext;
-    } else {
-        this.ext = options.ext;
-    }
 
     this.root = options.root;
     this.fallback = util.parseLangTag(options.fallback);
