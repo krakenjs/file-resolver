@@ -1,7 +1,7 @@
 file-resolver
 =============
 
-Lead Maintainer: [Aria Stewart](https://github.com/aredridel)  
+Lead Maintainer: [Aria Stewart](https://github.com/aredridel)
 
 [![Build Status](https://travis-ci.org/krakenjs/file-resolver.svg?branch=master)](https://travis-ci.org/krakenjs/file-resolver)
 
@@ -10,7 +10,7 @@ Used in kraken based projects for resolving file paths when given the locale, so
 Simple Usage:
 
 ```javascript
-var fr = require('fileResolver'),
+var fr = require('file-resolver'),
     resolver = fr.create({root: 'path/to/templates', fallback: 'en_US', ext: 'dust'}),
     fileInfo = resolver.resolve('foo', 'es_ES');
 
