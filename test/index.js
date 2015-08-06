@@ -110,4 +110,26 @@ test('fileResolver', function (t) {
         t.equal(typeof resolvr._locate, 'function');
         t.end();
     });
+
+    t.test('resolve with a bogus locale object', function (t) {
+        var resolvr = fileResolver.create({root: __dirname + '/fixtures/root', ext: 'dust'});
+        var info = resolvr.resolve('test', {});
+
+        t.equal(info.root, __dirname + '/fixtures/root/');
+        t.equal(info.file, __dirname + '/fixtures/root/test.dust');
+        t.equal(info.ext, 'dust');
+        t.equal(info.name, 'test');
+        t.end();
+    });
+
+    t.test('fall back with a bogus locale object', function (t) {
+        var resolvr = fileResolver.create({root: __dirname + '/fixtures/root', ext: 'dust', fallback: 'en_US'});
+        var info = resolvr.resolve('test', {});
+
+        t.equal(info.root, __dirname + '/fixtures/root/US/en/');
+        t.equal(info.file, __dirname + '/fixtures/root/US/en/test.dust');
+        t.equal(info.ext, 'dust');
+        t.equal(info.name, 'test');
+        t.end();
+    });
 });

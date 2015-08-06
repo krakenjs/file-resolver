@@ -50,10 +50,8 @@ var proto = {
      * @returns {*}
      */
     resolve: function (name, locale) {
-        var match, loc;
-        name = name + this._ext;
-        loc = locale ? util.parseLangTag(locale) : this._fallback;
-        match = this._locate(name, loc);
+        var loc = util.selectLangTag(locale, this._fallback);
+        var match = this._locate(name + this._ext, loc);
         return match;
     }
 
