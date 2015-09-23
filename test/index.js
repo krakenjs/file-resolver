@@ -110,4 +110,5 @@ test('fileResolver', function (t) {
         t.equal(typeof resolvr._locate, 'function');
         t.end();
     });
+    t.end();
 });
