@@ -110,5 +110,5 @@ test('fileResolver', function (t) {
     });
 
     t.end();
-    
+
 });
