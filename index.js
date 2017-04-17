@@ -51,7 +51,9 @@ var proto = {
      */
     resolve: function (name, locale) {
         var match, loc;
-        name = name + this._ext;
+        if (name.slice(-this._ext.length) !== this._ext) {
+            name = name + this._ext;
+        }
         loc = locale ? util.parseLangTag(locale) : this._fallback;
         match = this._locate(name, loc);
         return match;
