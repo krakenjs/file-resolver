@@ -1,7 +1,4 @@
-file-resolver
-=============
-
-Lead Maintainer: [Aria Stewart](https://github.com/aredridel)
+# file-resolver
 
 [![Build Status](https://travis-ci.org/krakenjs/file-resolver.svg?branch=master)](https://travis-ci.org/krakenjs/file-resolver)
 
